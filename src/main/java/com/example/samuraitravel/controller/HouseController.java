@@ -1,5 +1,7 @@
 package com.example.samuraitravel.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.entity.Review;
 import com.example.samuraitravel.form.ReservationInputForm;
 import com.example.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.repository.ReviewRepository;
@@ -88,9 +91,11 @@ public class HouseController {
     @GetMapping("/{id}")
     public String show(@PathVariable(name = "id") Integer id, Model model) {
         House house = houseRepository.getReferenceById(id);
+        List<Review> newReviews = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
         
         model.addAttribute("house", house);  
         model.addAttribute("reservationInputForm", new ReservationInputForm());
+        model.addAttribute("newReviews", newReviews);
         
         return "houses/show";
     }    
