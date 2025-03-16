@@ -109,6 +109,8 @@ public class HouseController {
         model.addAttribute("totalReviewCount", totalReviewCount);        
         
         return "houses/show";
-    }    
+    }  
+    
+
 }
     
